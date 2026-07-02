@@ -47,6 +47,22 @@ at footage from a different camera angle.
 
 </details>
 
+<details><summary>Run with Docker</summary>
+
+```bash
+docker build -t football-inference .
+docker run --rm -v "$(pwd)":/data football-inference \
+  --source /data/path/to/video.mp4 \
+  --output /data/output.mp4 \
+  --config config.football_yolo.yaml
+```
+
+The image is CPU-only (`python:3.11-slim` + CPU-build PyTorch) and already
+bundles the trained checkpoint, so only the input/output video needs to be
+mounted in.
+
+</details>
+
 ## Detection model
 
 Detection uses [YOLO](https://github.com/ultralytics/ultralytics) with
