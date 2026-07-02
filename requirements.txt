@@ -1,0 +1,9 @@
+ultralytics  # needs a recent version for YOLO26; upgrade with: pip install -U ultralytics
+sahi
+supervision
+opencv-python
+numpy
+scikit-learn
+torch
+torchvision
+pyyaml

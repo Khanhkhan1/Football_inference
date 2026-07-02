@@ -1,0 +1,94 @@
+# Football analysis pipeline configuration.
+# Paths under data/weights are placeholders until trained weights are added.
+
+detection:
+  weights_path: "data/weights/football_yolo.pt"  # football-trained YOLO26n checkpoint (0=ball, 1=player)
+  confidence_threshold: 0.3
+  slice_height: 512
+  slice_width: 512
+  overlap_height_ratio: 0.2
+  overlap_width_ratio: 0.2
+  # Maps detector class ids to pipeline roles — classes of the football-trained
+  # checkpoint (see football_dataset_yolo/data.yaml).
+  class_names:
+    0: ball
+    1: player
+  # Detection region of interest (image-space pixel polygon, pitch boundary).
+  # Detections whose foot point (bbox bottom-center) falls outside are dropped
+  # -- filters crowd/sideline. Calibrated per camera/video. Set null for whole frame.
+  roi_polygon:
+    - [374, 682]
+    - [748, 440]
+    - [798, 399]
+    - [859, 374]
+    - [955, 328]
+    - [970, 283]
+    - [1031, 243]
+    - [1117, 227]
+    - [1147, 237]
+    - [1197, 237]
+    - [1223, 197]
+    - [1288, 192]
+    - [1309, 222]
+    - [1349, 222]
+    - [1410, 182]
+    - [1526, 162]
+    - [1789, 147]
+    - [1824, 212]
+    - [1864, 207]
+    - [1945, 157]
+    - [2097, 147]
+    - [2314, 162]
+    - [2355, 232]
+    - [2400, 212]
+    - [2445, 162]
+    - [2506, 162]
+    - [2541, 237]
+    - [2582, 232]
+    - [2688, 202]
+    - [2759, 268]
+    - [2759, 323]
+    - [2840, 354]
+    - [2936, 399]
+    - [2971, 450]
+    - [3178, 505]
+    - [3345, 647]
+    - [3340, 834]
+    - [3158, 677]
+    - [3087, 763]
+    - [2789, 879]
+    - [1864, 884]
+    - [1804, 798]
+    - [1718, 879]
+    - [520, 874]
+    - [606, 707]
+    - [531, 682]
+    - [394, 854]
+    - [152, 874]
+    - [369, 733]
+
+tracking:
+  track_activation_threshold: 0.25
+  lost_track_buffer: 30
+  minimum_matching_threshold: 0.8
+  frame_rate: 25
+
+clustering:
+  algorithm: kmeans
+  eps: 8.0          # used only when algorithm is dbscan
+  min_samples: 2    # used only when algorithm is dbscan
+  num_expected_groups: 2   # team A, team B
+
+minimap:
+  pitch_length_m: 105.0
+  pitch_width_m: 68.0
+  # Frame corner for the minimap overlay: top_left, top_right, bottom_left, or
+  # bottom_right. Pick whichever stays clear of the pitch for this camera.
+  position: top_right
+  # Image-space pixel coordinates of the four pitch corners (order: far-left,
+  # far-right, near-right, near-left), calibrated for this camera/video.
+  source_keypoints:
+    - [1158, 204]
+    - [2581, 204]
+    - [3524, 760]
+    - [101, 836]

@@ -1,0 +1,35 @@
+# Configuration for detector weights trained on data/raw/football_dataset_yolo.
+# Create the checkpoint with:
+#   python scripts/train_detector.py --data data/raw/football_dataset_yolo/data.yaml
+
+detection:
+  weights_path: "data/weights/football_yolo.pt"
+  confidence_threshold: 0.3
+  slice_height: 512
+  slice_width: 512
+  overlap_height_ratio: 0.2
+  overlap_width_ratio: 0.2
+  class_names:
+    0: ball
+    1: player
+
+tracking:
+  track_activation_threshold: 0.25
+  lost_track_buffer: 30
+  minimum_matching_threshold: 0.8
+  frame_rate: 25
+
+clustering:
+  algorithm: kmeans
+  eps: 8.0          # used only when algorithm is dbscan
+  min_samples: 2    # used only when algorithm is dbscan
+  num_expected_groups: 2   # team A, team B
+
+minimap:
+  pitch_length_m: 105.0
+  pitch_width_m: 68.0
+  source_keypoints:
+    - [0, 0]
+    - [1920, 0]
+    - [1920, 1080]
+    - [0, 1080]
